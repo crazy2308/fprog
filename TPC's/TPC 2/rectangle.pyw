@@ -1,4 +1,4 @@
-from graphics import * # type: ignore #
+from graphics import *  # type: ignore
 
 
 def main():
@@ -17,8 +17,22 @@ def main():
     retangulo.setOutline("red")
     retangulo.draw(win)
 
-    message.setText("Clica para sair.") 
+    largura = abs(p2.getX() - p1.getX())
+
+    altura = abs(p2.getY() - p1.getY())
+
+    perimetro = 2 * (largura + altura)
+
+    area = largura * altura
+
+    texto_resultado = "Perímetro: " + str(perimetro) + ", Área: " + str(area)
+    resultado_texto = Text(Point(5, 1), texto_resultado)
+    resultado_texto.setSize(10)
+    resultado_texto.draw(win)
+
+    message.setText("Clica para sair.")
     win.getMouse()
+    win.close()
 
 
 main()

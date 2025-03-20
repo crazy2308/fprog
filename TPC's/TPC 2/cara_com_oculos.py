@@ -1,15 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 18 21:33:11 2025
-
-@author: Utilizador
-"""
-
-from graphics import GraphWin, Circle, Point, Oval, Polygon, Line
+from graphics import *
 
 def main(): 
     
-    win = GraphWin("Que cara bonita!", 500, 500)
+    win = GraphWin("O Zé versão pixel!", 500, 500)
     win.setCoords(0, 0, 100, 100)
        
     #cara
@@ -39,19 +32,19 @@ def main():
     pupilad.draw(win)
     
     #orelhas
-    orelhae = Polygon(Point(74,60), Point(80,60), Point(74,40))
+    orelhae = Oval(Point(77,55), Point(73,45))
     orelhae.setFill("salmon")
     orelhae.setOutline("black")
     orelhae.draw(win)
    
-    orelhad = Polygon(Point(26,60), Point(20,60), Point(26,40))
+    orelhad = Oval(Point(27,55), Point(24,45))
     orelhad.setFill("salmon")
     orelhad.setOutline("black")
     orelhad.draw(win)
    
     #nariz
-    nariz = Polygon(Point(45,45), Point(55,45), Point(50,60))
-    nariz.setFill("orange")
+    nariz = Polygon(Point(45,45), Point(55,45), Point(50,55))
+    nariz.setFill("salmon")
     nariz.setOutline("black")
     nariz.draw(win)
     
@@ -59,6 +52,11 @@ def main():
     boca = Oval(Point(40, 30), Point(60,35))
     boca.setFill("red")
     boca.draw(win)
+
+    #lingua
+    lingua = Oval(Point(48, 27), Point(52,33))
+    lingua.setFill("pink")
+    lingua.draw(win)
     
     win.getMouse()
     
