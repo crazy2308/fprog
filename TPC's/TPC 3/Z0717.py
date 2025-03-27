@@ -7,7 +7,7 @@ def window(): #Definir o tamanha da janela por input do utilizador
     altura = int(input("Altura da janela: "))
 
     win = GraphWin("Círculo", largura, altura)
-    win.setCoords(0, 0, 100, 100)
+    win.setCoords(0, 0, 200, 200)
     
     return win
 
