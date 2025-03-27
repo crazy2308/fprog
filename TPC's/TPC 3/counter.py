@@ -1,0 +1,1 @@
+print(f"A frase tem {len(input("Introduza a frase que pretende: ").split())} palavras")
