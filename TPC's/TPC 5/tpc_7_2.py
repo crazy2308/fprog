@@ -18,4 +18,5 @@ class Cube:
     def volume(self):
         return self.aresta**3
     
-        
+    def draw3I(self):
+        aresta        

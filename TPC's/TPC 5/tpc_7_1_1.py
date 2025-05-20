@@ -9,9 +9,11 @@ from tpc_7_1 import Esfera
 
 def main():
     
-    radius = input("Diga o raio da esfera")
-    Esfera(radius)
-    print(Esfera.volume)
-    print(Esfera.area)
+    radius = input("Diga o raio da esfera: ")
+    vol=Esfera(radius)
+    res1 = vol.area()
+    print(res1)
+   
 
 main()
+ 
