@@ -1,4 +1,4 @@
-from graphics import *  # type: ignore
+from graphics import Point, Text, GraphWin, Rectangle
 
 
 def main():
