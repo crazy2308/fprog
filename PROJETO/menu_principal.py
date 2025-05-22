@@ -75,7 +75,7 @@ class menu_principal:
                         texto = label.getText()
                         if texto == "COMEÇAR":
                             self.win.close()
-                            SecImpl() # type: ignore
+                            tier1()
                             self.a = 0
                             PlayMenu(self.win, self.a) # type: ignore
                             return
