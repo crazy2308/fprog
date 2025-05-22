@@ -4,13 +4,16 @@
 
 from graphics import *
 from classes import *
-
+from salav2 import *
+from classes import waiter
 def tier1():
     # Cria a janela gráfica
-    win = GraphWin("Zé das Bifanas", 800, 600) 
-    win.setCoords(0, 600, 800, 0)
-    win_bg = Image(Point(400, 300), "azuleijo.png").draw(win)
-    robo = waiter(win, Point(20, 20), 20, 100)
+    sala_obj = Sala()
+    sala_obj.run("salaxx.txt")
+    robo = waiter(sala_obj.win, Point(97, 145), 5, 100)
+    robo.desenhar()
 
     win.getMouse()
     win.close()
+
+tier1()

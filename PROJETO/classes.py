@@ -4,6 +4,7 @@
 
 from graphics import *
 from math import *
+from salav2 import *
 
 class waiter:
     def __init__(self, window, center_point, body_radius, battery_level):
@@ -15,7 +16,7 @@ class waiter:
 
         # Cria o corpo do robô (círculo cinzento claro)
         self.body = Circle(self.center, self.body_radius)
-        self.body.setFill(color_rgb(200, 200, 200))
+        self.body.setFill("white")
         self.body.draw(self.window)
 
         # Cria o indicador de bateria (círculo verde)

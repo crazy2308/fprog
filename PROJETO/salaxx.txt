@@ -24,7 +24,7 @@ DIV 106 20 110 130 brown
 B 62 140 88 150 sienna1
 
 # Estação
-E 97 145 4.5 khaki
+E 97 145 5 khaki
 
 # Botao de Saida
 S 132 0 150 10 red
