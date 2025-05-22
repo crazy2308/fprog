@@ -1,0 +1,3 @@
+echo '*.pyc' >> .gitignore
+echo '__pycache__/' >> .gitignore
+git rm --cached -r __pycache__/
