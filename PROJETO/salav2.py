@@ -1,4 +1,4 @@
-from graphics import GraphWin, Rectangle, Point, Circle, Text
+from graphics import GraphWin, Rectangle, Point, Circle, Text, Image
 
 class Table:
     def __init__(self, win, x1, y1, x2, y2, color):
@@ -50,9 +50,10 @@ class Saida:
 class Sala:
     def __init__(self):
         self.win = GraphWin("Projeto", 600, 600)
-        self.win.setBackground("white")
         self.win.setCoords(0.0, 0.0, 150, 150)
-    
+        self.fundo = Image(Point(75, 75), "chao_madeira_v3.gif")
+        self.fundo.draw(self.win)
+
     def desenhar(self, salaxx):
         arquivo = open("salaxx.txt", "r")
         with arquivo as dados:
@@ -104,9 +105,8 @@ class Sala:
     def run(self, salaxx):
         self.desenhar(salaxx)
         # Espera por um clique antes de fechar
-        ponto = self.win.getMouse()
-        if self.Saida.detetar(ponto):
-            self.win.close()
+        self.win.getMouse()
+        self.win.close()
 
 def main():
     sala_obj = Sala()
