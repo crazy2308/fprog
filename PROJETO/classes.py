@@ -4,11 +4,10 @@
 
 from graphics import *
 from math import *
-<<<<<<< HEAD
+
 from salav2 import *
-=======
+
 from time import *
->>>>>>> 157aa76fedc8b48dcc7bbfaac98f20ed84b713b9
 
 class Waiter:
     def __init__(self, window, center_point, body_radius, battery_level):

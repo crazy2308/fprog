@@ -34,7 +34,6 @@ class Saida:
         self.rect = Rectangle(Point(x1, y1), Point(x2, y2))
         self.rect.setFill(color)
         self.rect.setOutline("red4")
-        self.rect.getCenter()
         self.rect.draw(win)
         centro = self.rect.getCenter()
         texto = Text(centro, "Saída")
@@ -49,10 +48,11 @@ class Saida:
 
 class Sala:
     def __init__(self):
-        self.win = GraphWin("Zé das Bifanas", 600, 600)
-        self.win.setCoords(0.0, 0.0, 150, 150)
+        self.win2 = GraphWin("Zé das Bifanas", 600, 600)
+        self.win2.setCoords(0.0, 0.0, 150, 150)
         self.fundo = Image(Point(75, 75), "chao_madeira_v3.gif")
-        self.fundo.draw(self.win)
+        self.fundo.draw(self.win2)
+        self.saida = None
 
     def desenhar(self, salaxx):
         arquivo = open("salaxx.txt", "r")
@@ -69,7 +69,7 @@ class Sala:
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Table(self.win, x1, y1, x2, y2, cor)
+                    Table(self.win2, x1, y1, x2, y2, cor)
                 
                 elif tipo == "DIV":
                     x1 = float(partes[1])
@@ -77,7 +77,7 @@ class Sala:
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Divisao(self.win, x1, y1, x2, y2, cor)
+                    Divisao(self.win2, x1, y1, x2, y2, cor)
                 
                 elif tipo == "B":
                     x1 = float(partes[1])
@@ -85,14 +85,14 @@ class Sala:
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Bancada(self.win, x1, y1, x2, y2, cor)
+                    Bancada(self.win2, x1, y1, x2, y2, cor)
 
                 elif tipo == "E":
                     x1 = float(partes[1])
                     y1 = float(partes[2])
                     radius = float(partes[3])
                     cor = partes[4]
-                    Estacao(self.win, x1, y1, radius, cor)
+                    Estacao(self.win2, x1, y1, radius, cor)
 
                 elif tipo == "S":  
                     x1 = float(partes[1])
@@ -100,10 +100,8 @@ class Sala:
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Saida(self.win, x1, y1, x2, y2, cor)
-                
+                    Saida(self.win2, x1, y1, x2, y2, cor)
+    
     def run(self, salaxx):
         self.desenhar(salaxx)
-        # Espera por um clique antes de fechar
-        self.win.getMouse()
-        self.win.close()
+

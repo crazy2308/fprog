@@ -5,7 +5,6 @@ from graphics import *
 from classes import *
 from projeto import *
 
-
 class menu_principal:
 
     def __init__(self):
