@@ -4,8 +4,9 @@
 
 from graphics import *
 from math import *
+from time import *
 
-class waiter:
+class Waiter:
     def __init__(self, window, center_point, body_radius, battery_level):
         self.window = window
         self.center = center_point
@@ -24,7 +25,38 @@ class waiter:
         self.battery.setFill(color_rgb(0, 255, 0))
         self.battery.draw(self.window)
 
+    def move(self, dx, dy):
+        self.body.move(dx, dy)
+        self.battery.move(dx, dy)
+        self.center.move(dx, dy)
+    
+    def move_to_point(self, target_point):
+        win_width = int(self.window.getWidth())
+        win_height = int(self.window.getHeight())
+
+        min_x = self.body_radius
+        max_x = win_width - self.body_radius
+        min_y = self.body_radius
+        max_y = win_height - self.body_radius
+
+        target_x = max(min_x, min(target_point.getX(), max_x))
+        target_y = max(min_y, min(target_point.getY(), max_y))
         
+        dx = target_x - self.center.getX()
+        dy = target_y - self.center.getY()
+
+        distance = sqrt(dx**2 + dy**2)
+        steps = int(distance / 2)
+        steps = max(10, steps)
+
+        step_dx = dx / steps
+        step_dy = dy / steps
+
+        for _ in range(steps):
+            self.move(step_dx, step_dy)
+            sleep(0.01)
+
+    
 class Button: # Cria um botão 
     @staticmethod
     def is_click_in_button(point, button):

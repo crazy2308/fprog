@@ -10,7 +10,9 @@ def tier1():
     win = GraphWin("Zé das Bifanas", 800, 600) 
     win.setCoords(0, 600, 800, 0)
     win_bg = Image(Point(400, 300), "azuleijo.png").draw(win)
-    robo = waiter(win, Point(20, 20), 20, 100)
+    robo = Waiter(win, Point(20, 20), 20, 100)
 
-    win.getMouse()
-    win.close()
+    while True:
+        click = win.getMouse()
+        if click:  # Se houve clique
+            robo.move_to_point(click)
