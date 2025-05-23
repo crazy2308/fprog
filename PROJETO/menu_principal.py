@@ -4,7 +4,6 @@
 from graphics import *
 from classes import *
 from projeto import *
-from time import *
 
 
 class menu_principal:
@@ -77,7 +76,7 @@ class menu_principal:
                             self.win.close()
                             tier1()
                             self.a = 0
-                            PlayMenu(self.win, self.a) # type: ignore
+                            #PlayMenu(self.win, self.a) # type: ignore
                             return
                         elif texto == "SAIR":
                             self.win.close()
