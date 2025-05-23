@@ -22,17 +22,17 @@ class menu_principal:
         self.buttons_main = []
         button_main_data = [
             [(690, 670), (910, 800), "COMEÇAR"],
-            [(1400, 700), (1490, 800), "SAIR"],
-            [(140, 730), (360, 770), "PROPRIETÁRIOS"]
+            [(1405, 40), (1495, 140), "SAIR"],
+            [(40, 100), (260, 140), "PROPRIETÁRIOS"]
         ]
         for data in button_main_data:
             button, label = Button.create_button(self.win, Point(*data[0]), Point(*data[1]), data[2])
             self.buttons_main.append((button, label))
 
         self.images_main = [
-            Image(Point(250, 750), 'botao_proprietarios.png').draw(self.win),
+            Image(Point(150, 120), 'botao_proprietarios.png').draw(self.win),
             Image(Point(800, 735), "comecar.png").draw(self.win),
-            Image(Point(1450, 750), "sair.png").draw(self.win)
+            Image(Point(1450, 90), "sair.png").draw(self.win)
         ]
 
     def clear_main_menu(self):
