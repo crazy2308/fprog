@@ -5,27 +5,16 @@
 from graphics import *
 from classes import *
 from salav2 import *
-from classes import waiter
+from classes import Waiter
+
 def tier1():
     # Cria a janela gráfica
-<<<<<<< HEAD
-    sala_obj = Sala()
-    sala_obj.run("salaxx.txt")
-    robo = waiter(sala_obj.win, Point(97, 145), 5, 100)
-    robo.desenhar()
+    sala = Sala()
+    sala.run("salaxx.txt")
 
-    win.getMouse()
-    win.close()
-
-tier1()
-=======
-    win = GraphWin("Zé das Bifanas", 800, 600) 
-    win.setCoords(0, 600, 800, 0)
-    win_bg = Image(Point(400, 300), "azuleijo.png").draw(win)
-    robo = Waiter(win, Point(20, 20), 20, 100)
+    robo = Waiter(sala.win2, Point(97, 145), 4, 100)
 
     while True:
-        click = win.getMouse()
+        click = sala.win2.getMouse()
         if click:  # Se houve clique
             robo.move_to_point(click)
->>>>>>> 157aa76fedc8b48dcc7bbfaac98f20ed84b713b9
