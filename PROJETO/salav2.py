@@ -49,7 +49,7 @@ class Saida:
 
 class Sala:
     def __init__(self):
-        self.win = GraphWin("Projeto", 600, 600)
+        self.win = GraphWin("Zé das Bifanas", 600, 600)
         self.win.setCoords(0.0, 0.0, 150, 150)
         self.fundo = Image(Point(75, 75), "chao_madeira_v3.gif")
         self.fundo.draw(self.win)
@@ -107,8 +107,3 @@ class Sala:
         # Espera por um clique antes de fechar
         self.win.getMouse()
         self.win.close()
-
-def main():
-    sala_obj = Sala()
-    sala_obj.run("salaxx.txt")
-main()
