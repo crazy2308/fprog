@@ -3,7 +3,6 @@
 
 from graphics import *
 from classes import *
-from projeto import *
 
 class menu_principal:
 
@@ -73,9 +72,8 @@ class menu_principal:
                         texto = label.getText()
                         if texto == "COMEÇAR":
                             self.win.close()
+                            from projeto import tier1  # <-- Importa aqui!
                             tier1()
-                            self.a = 0
-                            #PlayMenu(self.win, self.a) # type: ignore
                             return
                         elif texto == "SAIR":
                             self.win.close()
