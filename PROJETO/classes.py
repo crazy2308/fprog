@@ -109,26 +109,27 @@ class Estacao:
         self.circ.draw(win)
 
 class Saida:
-    def __init__(self, win, x1, y1, x2, y2, color):
+    def __init__(self, win, x1, y1, x2, y2):
+        self.win = win
         self.rect = Rectangle(Point(x1, y1), Point(x2, y2))
-        self.rect.setFill(color)
-        self.rect.setOutline("red4")
         self.rect.draw(win)
+        
+         # Cria botão
+        self.button, self.label = Button.create_button(win, Point(x1, y1), Point(x2, y2), "SAIR")
+        
+        # Cria imagem sobre o botão
         centro = self.rect.getCenter()
-        texto = Text(centro, "Saída")
-        texto.setSize(10)
-        texto.setTextColor("black")
-        texto.draw(win)
-     
-    def detetar(self, ponto):
-        x = ponto.getX()
-        y = ponto.getY()
-        return ((132 <= x <= 150) and (0 <= y <= 10))
+        Image(centro, "sair2.png").draw(self.win)
+        
 
 class Sala:
     def __init__(self):
         self.win2 = GraphWin("Zé das Bifanas", 600, 600)
-        self.win2.setCoords(0.0, 0.0, 150, 150)
+        self.x1= 0.0
+        self.x2= 150
+        self.y1= 0
+        self.y2= 150
+        self.win2.setCoords(self.x1, self.y1, self.x2, self.y2)
         self.fundo = Image(Point(75, 75), "chao_madeira_v3.gif")
         self.fundo.draw(self.win2)
         self.saida = None
@@ -178,8 +179,7 @@ class Sala:
                     y1 = float(partes[2])
                     x2 = float(partes[3])
                     y2 = float(partes[4])
-                    cor = partes[5]
-                    Saida(self.win2, x1, y1, x2, y2, cor)
+                    self.saida = Saida(self.win2, x1, y1, x2, y2)  # Guarda referência
     
     def run(self, salaxx):
         self.desenhar(salaxx)
