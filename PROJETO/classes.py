@@ -4,7 +4,7 @@
 
 from graphics import *
 from math import * #Justificar esta biblioteca
-from time import * #Justificar esta biblioteca
+from time import sleep #Justificar esta biblioteca
 
 class Waiter:
     def __init__(self, window, center_point, body_radius, battery_level, x_min, y_min, x_max, y_max):
@@ -12,58 +12,75 @@ class Waiter:
         self.center = center_point
         self.body_radius = body_radius
         self.battery_level = battery_level
-        self.ignore_collisions = False  # Só ignora colisões quando ativado
+        self.ignore_collisions = False
 
-        # Guardar limites
         self.x_min = x_min
         self.y_min = y_min
         self.x_max = x_max
         self.y_max = y_max
 
-        # Cria o corpo do robô (círculo cinzento claro)
+        # Posição inicial
+        self.posicao_x = self.center.getX()
+        self.posicao_y = self.center.getY()
+
+        # Lista para armazenar as partes do robô
+        self.body_parts = []
+
+        # Corpo do robô
         self.body = Circle(self.center, self.body_radius)
         self.body.setFill("white")
         self.body.draw(self.window)
+        self.body_parts.append(self.body)
 
-        # Cria o indicador de bateria (círculo verde)
+        # Indicador de bateria
         battery_radius = self.body_radius / 4
         self.battery = Circle(self.center, battery_radius)
         self.battery.setFill(color_rgb(0, 255, 0))
         self.battery.draw(self.window)
+        self.body_parts.append(self.battery)
 
-    def move(self, dx, dy):
-        self.body.move(dx, dy)
-        self.battery.move(dx, dy)
-        self.center.move(dx, dy)
+    def mover(self, destino_x, destino_y):
+        passos = 100
+        dx = (destino_x - self.posicao_x) / passos
+        dy = (destino_y - self.posicao_y) / passos
+
+        for i in range(passos):
+            novo_x = self.posicao_x + dx
+            novo_y = self.posicao_y + dy
+
+            for parte in self.body_parts:
+                parte.move(dx, dy)
+
+            self.posicao_x = novo_x
+            self.posicao_y = novo_y
+            time.sleep(0.005)
+
+    def table_check(self, click_point, mesas):
+
+        for mesa in mesas:
+            if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
+                print("Clique detectado em uma mesa!")
+                self.check_table()  # Move o robô para baixo 15 pontos
+                return True  # Indica que o clique foi em uma mesa
+        return False  # Indica que o clique não foi em uma mesa
     
-    def move_to_point(self, target_point):
-        min_x = self.x_min + self.body_radius
-        max_x = self.x_max - self.body_radius
-        min_y = self.y_min + self.body_radius
-        max_y = self.y_max - self.body_radius
+    def go_to_table(self, click_point, mesas):
+        """
+        Move o robô para a mesa clicada, se o clique estiver dentro de uma mesa.
+        :param click_point: Ponto clicado (Point).
+        :param mesas: Lista de mesas (objetos Table).
+        """
+        for mesa in mesas:
+            if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
+                print("Clique detectado em uma mesa!")
+                # Obtém o centro da mesa
+                center = mesa.rect.getCenter()
+                # Move o robô suavemente até o centro da mesa
+                self.mover(center.getX(), center.getY())
+                return True  # Indica que o clique foi em uma mesa
+        return False  # Indica que o clique não foi em uma mesa
 
-        target_x = max(min_x, min(target_point.getX(), max_x))
-        target_y = max(min_y, min(target_point.getY(), max_y))
-        
-        dx = target_x - self.center.getX()
-        dy = target_y - self.center.getY()
 
-        distance = sqrt(dx**2 + dy**2)
-        steps = int(distance / 2)
-        steps = max(10, steps)
-
-        step_dx = dx / steps
-        step_dy = dy / steps
-
-        for _ in range(steps):
-            new_x = self.center.getX() + step_dx
-            new_y = self.center.getY() + step_dy
-            if min_x <= new_x <= max_x and min_y <= new_y <= max_y:
-                self.move(step_dx, step_dy)
-                sleep(0.01)
-            else:
-                break
-    
 class Button: # Cria um botão 
     @staticmethod
     def is_click_in_button(point, button):
@@ -85,6 +102,17 @@ class Table:
         self.rect.setFill(color)
         self.rect.setOutline("black")
         self.rect.draw(win)
+
+    def det_table(self, point):
+
+        x = point.getX()
+        y = point.getY()
+        x1 = self.rect.getP1().getX()
+        y1 = self.rect.getP1().getY()
+        x2 = self.rect.getP2().getX()
+        y2 = self.rect.getP2().getY()
+
+        return x1 <= x <= x2 and y1 <= y <= y2
 
 class Divisao:
     def __init__(self, win, x1, y1, x2, y2, color):
@@ -125,31 +153,33 @@ class Saida:
 class Sala:
     def __init__(self):
         self.win2 = GraphWin("Zé das Bifanas", 600, 600)
-        self.x1= 0.0
-        self.x2= 150
-        self.y1= 0
-        self.y2= 150
+        self.x1 = 0.0
+        self.x2 = 150
+        self.y1 = 0
+        self.y2 = 150
         self.win2.setCoords(self.x1, self.y1, self.x2, self.y2)
         self.fundo = Image(Point(75, 75), "chao_madeira_v3.gif")
         self.fundo.draw(self.win2)
         self.saida = None
+        self.mesas = []  # Lista para armazenar as mesas
 
-    def desenhar(self, salaxx):
-        arquivo = open("salaxx.txt", "r")
+    def desenhar(self, sala49):
+        arquivo = open("sala49.txt", "r")
         with arquivo as dados:
             for linha in dados:
-                if linha.strip() == "" or linha.startswith("#"): #caso não haja nada na linha ou um comentario
+                if linha.strip() == "" or linha.startswith("#"):  # Ignorar linhas vazias ou comentários
                     continue
                 partes = linha.strip().split()
                 tipo = partes[0]
 
-                if tipo.startswith("M"):
+                if tipo.startswith("M"):  # Mesas
                     x1 = float(partes[1])
                     y1 = float(partes[2])
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Table(self.win2, x1, y1, x2, y2, cor)
+                    mesa = Table(self.win2, x1, y1, x2, y2, cor)
+                    self.mesas.append(mesa)  # Adiciona a mesa à lista
                 
                 elif tipo == "DIV":
                     x1 = float(partes[1])
@@ -181,5 +211,5 @@ class Sala:
                     y2 = float(partes[4])
                     self.saida = Saida(self.win2, x1, y1, x2, y2)  # Guarda referência
     
-    def run(self, salaxx):
-        self.desenhar(salaxx)
+    def run(self, sala49):
+        self.desenhar(sala49)
