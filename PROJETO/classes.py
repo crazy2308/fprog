@@ -8,16 +8,17 @@ from time import sleep #Justificar esta biblioteca
 
 class Waiter:
     def __init__(self, window, center_point, body_radius, battery_level, x_min, y_min, x_max, y_max):
+        
+        self.x_min = x_min
+        self.y_min = y_min
+        self.x_max = x_max
+        self.y_max = y_max
+
         self.window = window
         self.center = center_point
         self.body_radius = body_radius
         self.battery_level = battery_level
         self.ignore_collisions = False
-
-        self.x_min = x_min
-        self.y_min = y_min
-        self.x_max = x_max
-        self.y_max = y_max
 
         # Posição inicial
         self.posicao_x = self.center.getX()
@@ -40,6 +41,7 @@ class Waiter:
         self.body_parts.append(self.battery)
 
     def mover(self, destino_x, destino_y):
+       
         passos = 100
         dx = (destino_x - self.posicao_x) / passos
         dy = (destino_y - self.posicao_y) / passos
@@ -65,6 +67,7 @@ class Waiter:
         return False  # Indica que o clique não foi em uma mesa
     
     def go_to_table(self, click_point, mesas):
+        ponto1 = Point(97.0, 135.0)  # Ponto inicial do robô
         """
         Move o robô para a mesa clicada, se o clique estiver dentro de uma mesa.
         :param click_point: Ponto clicado (Point).
@@ -75,8 +78,30 @@ class Waiter:
                 print("Clique detectado em uma mesa!")
                 # Obtém o centro da mesa
                 center = mesa.rect.getCenter()
-                # Move o robô suavemente até o centro da mesa
-                self.mover(center.getX(), center.getY())
+                
+
+                #if self.center == Point(97, 145):
+                    
+                self.mover(ponto1.getX(), ponto1.getY())  # Move o robô para o ponto inicial
+                
+
+                if mesa.ident in ["EE", "DC"]:
+
+                            self.mover(center.getX() - 15, 135.0)
+                            self.mover(center.getX() - 15, center.getY())
+                            self.mover(center.getX() - 13, center.getY())
+                            sleep(3.0)
+                
+                if mesa.ident in ["EC", "DD"]:
+
+                            self.mover(center.getX() + 15, 135.0)
+                            self.mover(center.getX() + 15, center.getY())
+                            self.mover(center.getX() + 13, center.getY())
+                            sleep(3.0)
+
+                    #if mesa.ident in ["EC","DC"]:
+                            
+                            #self.mover(62, 135.0)
                 return True  # Indica que o clique foi em uma mesa
         return False  # Indica que o clique não foi em uma mesa
 
@@ -97,11 +122,12 @@ class Button: # Cria um botão
         return button, label  # Retorna o objeto label ao invés do texto
     
 class Table:
-    def __init__(self, win, x1, y1, x2, y2, color):
+    def __init__(self, win, x1, y1, x2, y2, color, ident):
         self.rect = Rectangle(Point(x1, y1), Point(x2, y2))
         self.rect.setFill(color)
         self.rect.setOutline("black")
         self.rect.draw(win)
+        self.ident = ident
 
     def det_table(self, point):
 
@@ -178,7 +204,8 @@ class Sala:
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    mesa = Table(self.win2, x1, y1, x2, y2, cor)
+                    ident = partes[6] # Identificador opcional
+                    mesa = Table(self.win2, x1, y1, x2, y2, cor, ident)
                     self.mesas.append(mesa)  # Adiciona a mesa à lista
                 
                 elif tipo == "DIV":
