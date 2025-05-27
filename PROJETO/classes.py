@@ -90,18 +90,26 @@ class Waiter:
                             self.mover(center.getX() - 15, 135.0)
                             self.mover(center.getX() - 15, center.getY())
                             self.mover(center.getX() - 13, center.getY())
-                            sleep(3.0)
+                            sleep(2.0)
                 
                 if mesa.ident in ["EC", "DD"]:
 
                             self.mover(center.getX() + 15, 135.0)
                             self.mover(center.getX() + 15, center.getY())
                             self.mover(center.getX() + 13, center.getY())
-                            sleep(3.0)
+                            sleep(2.0)
 
-                    #if mesa.ident in ["EC","DC"]:
-                            
-                            #self.mover(62, 135.0)
+                if mesa.ident in ["EC","DC"]:
+
+                    self.mover(75, 135.0)
+                    self.mover(75, 136)
+
+                if mesa.ident in ["EE", "DD"]:
+
+                    self.mover(self.posicao_x, 135.0)
+                    self.mover(75, 135.0)
+                    self.mover(75, 136)
+
                 return True  # Indica que o clique foi em uma mesa
         return False  # Indica que o clique não foi em uma mesa
 
