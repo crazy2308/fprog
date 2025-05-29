@@ -74,7 +74,7 @@ class menu_principal:
                             from projeto import tier1  # <-- Importa aqui!
                             tier1()
                             return
-                        elif texto == "SAIR":
+                        if texto == "SAIR":
                             self.win.close()
                             return
                         elif texto == "PROPRIETÁRIOS":

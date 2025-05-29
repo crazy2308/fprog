@@ -48,20 +48,20 @@ class Waiter:
         for i in range(passos):
             novo_x = self.posicao_x + dx
             novo_y = self.posicao_y + dy
-
+            
             for parte in self.body_parts:
                 parte.move(dx, dy)
 
             self.posicao_x = novo_x
             self.posicao_y = novo_y
-            time.sleep(0.005)
-
+            sleep(0.005)
 
     def go_to_table(self, click_point, mesas):
         ponto1 = Point(97.0, 135.0)  # Ponto inicial do robô
         ponto2 = Point(75.0, 135.0)  # Ponto de destino do robô
         ponto3 = Point(97.0, 145.0)  # Ponto de destino do robô
         distancia = self.calcular_distancia(click_point)
+        
         for mesa in mesas:
                 if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
                     print("Clique detectado em uma mesa!")
@@ -141,10 +141,13 @@ class Waiter:
 
             
                     return True  # Indica que o clique foi em uma mesa
-            
-        self.obstaculo(click_point)
-        if distancia <= 4: 
-            print("Clique detectado próximo ao robô!")
+                    
+                self.obstaculo(click_point)
+                if distancia <= 6:
+                            imagem_obstaculo = self.obstaculo(click_point)
+                            sleep(2.0)
+                            imagem_obstaculo.undraw()
+                            print("Clique detectado próximo ao robô!")
             
         return False  # Indica que o clique não foi em uma mesa
 
