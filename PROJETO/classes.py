@@ -18,7 +18,6 @@ class Waiter:
         self.center = center_point
         self.body_radius = body_radius
         self.battery_level = battery_level
-        self.ignore_collisions = False
 
         # Posição inicial
         self.posicao_x = self.center.getX()
@@ -57,32 +56,16 @@ class Waiter:
             self.posicao_y = novo_y
             time.sleep(0.005)
 
-    def table_check(self, click_point, mesas):
 
-        for mesa in mesas:
-            if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
-                print("Clique detectado em uma mesa!")
-                self.check_table()  # Move o robô para baixo 15 pontos
-                return True  # Indica que o clique foi em uma mesa
-        return False  # Indica que o clique não foi em uma mesa
-    
     def go_to_table(self, click_point, mesas):
         ponto1 = Point(97.0, 135.0)  # Ponto inicial do robô
         ponto2 = Point(75.0, 135.0)  # Ponto de destino do robô
         ponto3 = Point(97.0, 145.0)  # Ponto de destino do robô
-        """
-        Move o robô para a mesa clicada, se o clique estiver dentro de uma mesa.
-        :param click_point: Ponto clicado (Point).
-        :param mesas: Lista de mesas (objetos Table).
-        """
+
         for mesa in mesas:
             if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
                 print("Clique detectado em uma mesa!")
-                # Obtém o centro da mesa
                 center = mesa.rect.getCenter()
-                
-
-                #if self.center == Point(97, 145):
                     
                 self.mover(ponto1.getX(), ponto1.getY())  # Move o robô para o ponto inicial
                 

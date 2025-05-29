@@ -24,6 +24,6 @@ def tier1():
 
         # Verifica se clicou em uma mesa
         if robo.go_to_table(click, sala.mesas):
-            print("Robô movido para a mesa.")
+            print("Tarefa Concluida")
         else:
             print("Clique fora das mesas.")
