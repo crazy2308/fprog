@@ -61,87 +61,107 @@ class Waiter:
         ponto1 = Point(97.0, 135.0)  # Ponto inicial do robô
         ponto2 = Point(75.0, 135.0)  # Ponto de destino do robô
         ponto3 = Point(97.0, 145.0)  # Ponto de destino do robô
-
+        distancia = self.calcular_distancia(click_point)
         for mesa in mesas:
-            if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
-                print("Clique detectado em uma mesa!")
-                center = mesa.rect.getCenter()
+                if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
+                    print("Clique detectado em uma mesa!")
+                    center = mesa.rect.getCenter()
+                        
+                    self.mover(ponto1.getX(), ponto1.getY())  # Move o robô para o ponto inicial
                     
-                self.mover(ponto1.getX(), ponto1.getY())  # Move o robô para o ponto inicial
-                
-                if mesa.ident in ["EE"]:
-                    self.mover(center.getX() - 15, 135.0)
-                    self.mover(center.getX() - 15, center.getY())
-                    self.mover(center.getX() - 13, center.getY())
-                    sleep(2.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(self.posicao_x, 135.0)
-                    self.mover(ponto2.getX(), ponto2.getY())
-                    self.mover(75, 136)
-                    sleep(2.0)
-                    self.mover(center.getX() - 15, 135.0)
-                    self.mover(center.getX() - 15, center.getY())
-                    self.mover(center.getX() - 13, center.getY())
-                    sleep(2.0)
-                    self.mover(center.getX() - 15, center.getY())
-                    self.mover(center.getX() - 15, 135.0)
-                    self.mover(ponto1.getX(), ponto1.getY())
-                    self.mover(ponto3.getX(), ponto3.getY())
+                    if mesa.ident in ["EE"]:
+                        self.mover(center.getX() - 15, 135.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(center.getX() - 13, center.getY())
+                        sleep(2.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(self.posicao_x, 135.0)
+                        self.mover(ponto2.getX(), ponto2.getY())
+                        self.mover(75, 136)
+                        sleep(2.0)
+                        self.mover(center.getX() - 15, 135.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(center.getX() - 13, center.getY())
+                        sleep(2.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(center.getX() - 15, 135.0)
+                        self.mover(ponto1.getX(), ponto1.getY())
+                        self.mover(ponto3.getX(), ponto3.getY())
 
-                if mesa.ident in ["EC"]:
-                    self.mover(center.getX() + 15, 135.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(center.getX() + 13, center.getY())
-                    sleep(2.0)
-                    self.mover(ponto2.getX(), ponto2.getY())
-                    self.mover(75, 136)
-                    sleep(2.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(center.getX() + 13, center.getY())
-                    sleep(2.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(center.getX() + 15, 135.0)
-                    self.mover(ponto1.getX(), ponto1.getY())
-                    self.mover(ponto3.getX(), ponto3.getY())
+                    if mesa.ident in ["EC"]:
+                        self.mover(center.getX() + 15, 135.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(center.getX() + 13, center.getY())
+                        sleep(2.0)
+                        self.mover(ponto2.getX(), ponto2.getY())
+                        self.mover(75, 136)
+                        sleep(2.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(center.getX() + 13, center.getY())
+                        sleep(2.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(center.getX() + 15, 135.0)
+                        self.mover(ponto1.getX(), ponto1.getY())
+                        self.mover(ponto3.getX(), ponto3.getY())
 
-                if mesa.ident in ["DC"]:
-                    self.mover(center.getX() - 15, 135.0)
-                    self.mover(center.getX() - 15, center.getY())
-                    self.mover(center.getX() - 13, center.getY())
-                    sleep(2.0)
-                    self.mover(ponto2.getX(), ponto2.getY())
-                    self.mover(75, 136)
-                    sleep(2.0)
-                    self.mover(center.getX() - 15, center.getY())
-                    self.mover(center.getX() - 13, center.getY())
-                    sleep(2.0)
-                    self.mover(center.getX() - 15, center.getY())
-                    self.mover(center.getX() - 15, 135.0)
-                    self.mover(ponto1.getX(), ponto1.getY())
-                    self.mover(ponto3.getX(), ponto3.getY())
+                    if mesa.ident in ["DC"]:
+                        self.mover(center.getX() - 15, 135.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(center.getX() - 13, center.getY())
+                        sleep(2.0)
+                        self.mover(ponto2.getX(), ponto2.getY())
+                        self.mover(75, 136)
+                        sleep(2.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(center.getX() - 13, center.getY())
+                        sleep(2.0)
+                        self.mover(center.getX() - 15, center.getY())
+                        self.mover(center.getX() - 15, 135.0)
+                        self.mover(ponto1.getX(), ponto1.getY())
+                        self.mover(ponto3.getX(), ponto3.getY())
 
-                if mesa.ident in ["DD"]:
-                    self.mover(center.getX() + 15, 135.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(center.getX() + 13, center.getY())
-                    sleep(2.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(self.posicao_x, 135.0)
-                    self.mover(ponto2.getX(), ponto2.getY())
-                    self.mover(75, 136)
-                    sleep(2.0)
-                    self.mover(center.getX() + 15, 135.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(center.getX() + 13, center.getY())
-                    sleep(2.0)
-                    self.mover(center.getX() + 15, center.getY())
-                    self.mover(center.getX() + 15, 135.0)
-                    self.mover(ponto1.getX(), ponto1.getY())
-                    self.mover(ponto3.getX(), ponto3.getY())
+                    if mesa.ident in ["DD"]:
+                        self.mover(center.getX() + 15, 135.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(center.getX() + 13, center.getY())
+                        sleep(2.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(self.posicao_x, 135.0)
+                        self.mover(ponto2.getX(), ponto2.getY())
+                        self.mover(75, 136)
+                        sleep(2.0)
+                        self.mover(center.getX() + 15, 135.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(center.getX() + 13, center.getY())
+                        sleep(2.0)
+                        self.mover(center.getX() + 15, center.getY())
+                        self.mover(center.getX() + 15, 135.0)
+                        self.mover(ponto1.getX(), ponto1.getY())
+                        self.mover(ponto3.getX(), ponto3.getY())
 
-
-                return True  # Indica que o clique foi em uma mesa
+            
+                    return True  # Indica que o clique foi em uma mesa
+            
+        self.obstaculo(click_point)
+        if distancia <= 4: 
+            print("Clique detectado próximo ao robô!")
+            
         return False  # Indica que o clique não foi em uma mesa
+
+    def obstaculo(self, click_point):
+
+        x = click_point.getX()
+        y = click_point.getY()
+        cerveja = Image(Point(x, y), "cerveja_resized.png")
+        cerveja.draw(self.window)
+
+    def calcular_distancia(self, ponto_cerveja):
+
+        x1, y1 = self.posicao_x, self.posicao_y  # Posição do robô
+        x2, y2 = ponto_cerveja.getX(), ponto_cerveja.getY()  # Posição da cerveja
+
+        distancia = sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        return distancia
 
 
 class Button: # Cria um botão 

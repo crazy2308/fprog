@@ -22,8 +22,5 @@ def tier1():
             game.run()
             break
 
-        # Verifica se clicou em uma mesa
-        if robo.go_to_table(click, sala.mesas):
-            print("Tarefa Concluida")
-        else:
-            print("Clique fora das mesas.")
+        robo.go_to_table(click, sala.mesas)
+ 
