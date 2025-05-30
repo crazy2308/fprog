@@ -42,7 +42,7 @@ def tier2():
             break
 
         # Verifica se clicou em uma mesa
-        if robo.go_to_table(click, sala.mesas):
+        if robo.go_to_table_tier2(click, sala.mesas):
             print("Robô movido para a mesa.")
         else:
             print("Clique fora das mesas.")

@@ -130,6 +130,100 @@ class Waiter:
         self.mover(ponto1.getX(), ponto1.getY())
         self.mover(ponto2.getX(), ponto2.getY())
 
+    def go_to_table_tier2(self, click_point, mesas):
+        ponto1 = Point(97.0, 135.0)  # Ponto inicial do robô
+        ponto2 = Point(75.0, 136.0)  # Ponto de destino do robô
+        ponto3 = Point(97.0, 145.0)  # Ponto de destino do robô
+
+        for mesa in mesas:
+            if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
+                print("Clique detectado em uma mesa!")
+                # Obtém o centro da mesa
+                center = mesa.rect.getCenter()
+                img = Image(center, 'bifana.png')
+                
+                #if self.center == Point(97, 145):
+                    
+                self.mover(ponto1.getX(), ponto1.getY())  # Move o robô para o ponto inicial
+                
+                if mesa.ident in ["EE"]:
+                    self.mover(center.getX() - 15, 135.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(center.getX() - 13, center.getY())
+                    sleep(2.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(self.posicao_x, 135.0)
+                    self.mover(ponto2.getX(), ponto2.getY())
+                    self.mover(75, 136)
+                    sleep(2.0)
+                    self.mover(center.getX() - 15, 135.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(center.getX() - 13, center.getY())
+                    img.draw(self.window)
+                    sleep(2.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(center.getX() - 15, 135.0)
+                    self.mover(ponto1.getX(), ponto1.getY())
+                    self.mover(ponto3.getX(), ponto3.getY())
+
+                if mesa.ident in ["EC"]:
+                    self.mover(center.getX() + 15, 135.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(center.getX() + 13, center.getY())
+                    sleep(2.0)
+                    self.mover(ponto2.getX(), ponto2.getY())
+                    self.mover(75, 136)
+                    sleep(2.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(center.getX() + 13, center.getY())
+                    img.draw(self.window)
+                    sleep(2.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(center.getX() + 15, 135.0)
+                    self.mover(ponto1.getX(), ponto1.getY())
+                    self.mover(ponto3.getX(), ponto3.getY())
+
+                if mesa.ident in ["DC"]:
+                    self.mover(center.getX() - 15, 135.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(center.getX() - 13, center.getY())
+                    sleep(2.0)
+                    self.mover(ponto2.getX(), ponto2.getY())
+                    self.mover(75, 136)
+                    sleep(2.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(center.getX() - 13, center.getY())
+                    img.draw(self.window)
+                    sleep(2.0)
+                    self.mover(center.getX() - 15, center.getY())
+                    self.mover(center.getX() - 15, 135.0)
+                    self.mover(ponto1.getX(), ponto1.getY())
+                    self.mover(ponto3.getX(), ponto3.getY())
+
+                if mesa.ident in ["DD"]:
+                    self.mover(center.getX() + 15, 135.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(center.getX() + 13, center.getY())
+                    sleep(2.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(self.posicao_x, 135.0)
+                    self.mover(ponto2.getX(), ponto2.getY())
+                    self.mover(75, 136)
+                    sleep(2.0)
+                    self.mover(center.getX() + 15, 135.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(center.getX() + 13, center.getY())
+                    img.draw(self.window)
+                    sleep(2.0)
+                    self.mover(center.getX() + 15, center.getY())
+                    self.mover(center.getX() + 15, 135.0)
+                    self.mover(ponto1.getX(), ponto1.getY())
+                    self.mover(ponto3.getX(), ponto3.getY())
+
+
+                return True  # Indica que o clique foi em uma mesa
+        return False  # Indica que o clique não foi em uma mesa
+
 
 class Button: # Cria um botão 
     @staticmethod
