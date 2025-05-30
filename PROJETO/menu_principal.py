@@ -17,7 +17,9 @@ class menu_principal:
 
         self.buttons_main = []
         button_main_data = [
-            [(690, 670), (910, 800), "COMEÇAR"],
+            [(290, 670), (510, 800), "TIER1"],
+            [(690, 670), (910, 800), "TIER2"],
+            [(1090, 670), (1310, 800), "TIER3"],
             [(1405, 40), (1495, 140), "SAIR"],
             [(40, 100), (260, 140), "PROPRIETÁRIOS"]
         ]
@@ -27,7 +29,9 @@ class menu_principal:
 
         self.images_main = [
             Image(Point(150, 120), 'botao_proprietarios.png').draw(self.win),
-            Image(Point(800, 735), "comecar.png").draw(self.win),
+            Image(Point(400, 735), "tier1.png").draw(self.win),
+            Image(Point(800, 735), "tier2.png").draw(self.win),
+            Image(Point(1200, 735), "tier3.png").draw(self.win),
             Image(Point(1450, 90), "sair.png").draw(self.win)
         ]
 
@@ -69,10 +73,20 @@ class menu_principal:
                 for button, label in self.buttons_main:
                     if Button.is_click_in_button(click_point, button):
                         texto = label.getText()
-                        if texto == "COMEÇAR":
+                        if texto == "TIER1":
                             self.win.close()
-                            from projeto import tier1  # <-- Importa aqui!
+                            from projeto import tier1
                             tier1()
+                            return
+                        elif texto == "TIER2":
+                            self.win.close()
+                            from projeto import tier2
+                            tier2()
+                            return
+                        elif texto == "TIER3":
+                            self.win.close()
+                            from projeto import tier3
+                            tier3()
                             return
                         elif texto == "SAIR":
                             self.win.close()
