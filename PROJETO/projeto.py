@@ -9,9 +9,8 @@ from menu_principal import menu_principal
 def tier1():
     sala = Sala()
     sala.run("sala49.txt")
-    posicoes_mesa = sala.devolver_mesas()
 
-    robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, posicoes_mesa)
+    robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, sala.posicoes_mesa, sala.posicoes_Div)
   
     robo.go_to_table_tier1(sala.mesas)
 
@@ -30,7 +29,7 @@ def tier2():
     sala = Sala()
     sala.run("sala49.txt")
 
-    robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, sala.posicoes_mesa)
+    robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, sala.posicoes_mesa, sala.posicoes_Div)
     while True:
         click = sala.win2.getMouse()
 

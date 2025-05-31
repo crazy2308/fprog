@@ -7,7 +7,7 @@ from math import * #Justificar esta biblioteca
 from time import sleep #Justificar esta biblioteca
 
 class Waiter:
-    def __init__(self, window, center_point, body_radius, battery_level, x_min, y_min, x_max, y_max, posicoes_mesa):
+    def __init__(self, window, center_point, body_radius, battery_level, x_min, y_min, x_max, y_max, posicoes_mesa, posicoes_Div):
         
         self.x_min = x_min
         self.y_min = y_min
@@ -19,6 +19,7 @@ class Waiter:
         self.body_radius = body_radius
         self.battery_level = battery_level
         self.posicoes_mesa = posicoes_mesa
+        self.posicoes_Div = posicoes_Div
         self.obstaculos = []  # Lista para armazenar os obstáculos
         self.obstaculos_imagens = []  # Lista para armazenar as imagens dos obstáculos
 
@@ -277,10 +278,6 @@ class Waiter:
 
         x = click_point.getX()
         y = click_point.getY()
-            
-        print("Clique detectado fora das mesas!")
-        cerveja = Image(Point(x, y), "jola.png")
-        cerveja.draw(self.window)
 
         if 68 <= x <= 82 and 130 <= y <= 150:  # Coordenadas da zona proibida
             print("Zona proibida! Obstáculo não será criado.")
@@ -292,8 +289,17 @@ class Waiter:
         
         for (x1, y1, x2, y2) in self.posicoes_mesa:
             if x1 <= x <= x2 and y1 <= y <= y2:
-                print("Clique em mesa. Obstáculo não será criado.")
+                print("Clique em mesa. Obstáculo não será criado.")       
                 return
+        for (x1, x2, y1, y2) in self.posicoes_Div:
+            if x1 <= x <= x2 and y1 <= y <= y2:
+                print("Clique em divisão. Obstáculo não será criado.")       
+                return
+                 
+        print("Clique detectado fora das mesas!")
+        cerveja = Image(Point(x, y), "jola.png")
+        cerveja.draw(self.window)
+
         x1 = x - 10
         x2 = x + 10
         y1 = y - 8
@@ -386,6 +392,7 @@ class Sala:
         self.saida = None
         self.mesas = []  # Lista para armazenar as mesas
         self.posicoes_mesa = []  # Lista para armazenar as posições das mesas
+        self.posicoes_Div = []  # Lista para armazenar as posições das divisões
 
     def desenhar(self, sala49):
         arquivo = open("sala49.txt", "r")
@@ -414,7 +421,8 @@ class Sala:
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Divisao(self.win2, x1, y1, x2, y2, cor)
+                    Div = Divisao(self.win2, x1, y1, x2, y2, cor)
+                    self.posicoes_Div.append((x1, x2, y1, y2))
                 
                 elif tipo == "B":
                     x1 = float(partes[1])
@@ -443,3 +451,6 @@ class Sala:
 
     def devolver_mesas(self):
         return self.posicoes_mesa
+    
+    def devolver_Div(self):
+        return self.posicoes_Div
