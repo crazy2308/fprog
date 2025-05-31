@@ -1,0 +1,30 @@
+#Mesas do lado esquerdo                                                                                                                                                                                                                                                                                                                                                           Mesas lado esquerdo
+M1 22 96 40 110 tan3 EE
+M2 22 68 40 82 tan3 EE
+M3 22 40 40 54 tan3 EE
+
+M4 44 96 62 110 tan3 EC
+M5 44 68 62 82 tan3 EC
+M6 44 40 62 54 tan3 EC
+
+# Mesas lado direito
+M7 88 96 106 110 tan3 DC
+M8 88 68 106 82 tan3 DC
+M9 88 40 106 54 tan3 DC
+
+M10 110 96 128 110 tan3 DD
+M11 110 68 128 82 tan3 DD
+M12 110 40 128 54 tan3 DD
+
+# Divisórias
+DIV 40 20 44 130 brown
+DIV 106 20 110 130 brown
+
+# Bancada
+B 62 140 88 150 sienna1
+
+# Estação
+E 97 145 5 khaki
+
+# Botao de Saida
+S 138 3 147 10
