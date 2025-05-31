@@ -12,7 +12,7 @@ def tier1():
     posicoes_mesa = sala.devolver_mesas()
 
     robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, posicoes_mesa)
-
+  
     robo.go_to_table_tier1(sala.mesas)
 
     while True:
@@ -31,7 +31,6 @@ def tier2():
     sala.run("sala49.txt")
 
     robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, sala.posicoes_mesa)
-
     while True:
         click = sala.win2.getMouse()
 
@@ -43,12 +42,8 @@ def tier2():
             break
 
         clicou_em_mesa = robo.go_to_table_tier2(click, sala.mesas)
-
+        
         if not clicou_em_mesa:
             robo.obstaculo(click)
-
-        # Verifica se clicou em uma mesa
-        if robo.go_to_table_tier2(click, sala.mesas):
-            print("Robô movido para a mesa.")
         else:
-            print("Clique fora das mesas.")
+            print("Robô movido para a mesa.")
