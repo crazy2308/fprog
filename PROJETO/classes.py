@@ -280,7 +280,7 @@ class Waiter:
 
 
             # Verifica se está dentro de uma zona proibida (ex: perto da docking station)
-        if 85 <= x <= 110 and 130 <= y <= 150:  # Coordenadas da zona proibida
+        if 62 <= x <= 88 and 130 <= y <= 150:  # Coordenadas da zona proibida
             print("Zona proibida! Obstáculo não será criado.")
             return
 
