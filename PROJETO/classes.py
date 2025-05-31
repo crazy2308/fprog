@@ -40,8 +40,25 @@ class Waiter:
         self.battery.draw(self.window)
         self.body_parts.append(self.battery)
 
-    def mover(self, destino_x, destino_y):
+    def mover_tier1(self, destino_x, destino_y):
        
+        passos = 100
+        dx = (destino_x - self.posicao_x) / passos
+        dy = (destino_y - self.posicao_y) / passos
+
+        for i in range(passos):
+            novo_x = self.posicao_x + dx
+            novo_y = self.posicao_y + dy
+
+            for parte in self.body_parts:
+                parte.move(dx, dy)
+
+            self.posicao_x = novo_x
+            self.posicao_y = novo_y
+            time.sleep(0.005)
+
+    def mover_tier2(self, destino_x, destino_y):       
+
         passos = 100
         dx = (destino_x - self.posicao_x) / passos
         dy = (destino_y - self.posicao_y) / passos
