@@ -277,8 +277,23 @@ class Waiter:
 
         x = click_point.getX()
         y = click_point.getY()
-            
-        print("Clique detectado fora das mesas!")
+
+
+            # Verifica se está dentro de uma zona proibida (ex: perto da docking station)
+        if 85 <= x <= 110 and 130 <= y <= 150:  # Coordenadas da zona proibida
+            print("Zona proibida! Obstáculo não será criado.")
+            return
+
+        # Verifica se clicou dentro de uma mesa (opcional se já estiver sendo tratado antes)
+        for (x1, y1, x2, y2) in self.posicoes_mesa:
+            if x1 <= x <= x2 and y1 <= y <= y2:
+                print("Clique em mesa. Obstáculo não será criado.")
+                return
+
+        if 135 <= x <= 150 and 0 <= y <= 15:  # Coordenadas da zona proibida
+            print("Clique detectado fora das mesas!")
+            return
+        
         cerveja = Image(Point(x, y), "jola.png")
         cerveja.draw(self.window)
 
