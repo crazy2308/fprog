@@ -30,6 +30,7 @@ def tier2():
     sala.run("sala49.txt")
 
     robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, sala.posicoes_mesa, sala.posicoes_Div)
+    robo.mostrador(robo.battery_level)
     while True:
         click = sala.win2.getMouse()
 

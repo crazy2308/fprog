@@ -43,23 +43,14 @@ class Waiter:
         self.battery.draw(self.window)
         self.body_parts.append(self.battery)
 
-    def cor_bateria(self):
-        if self.battery_level > 60:
-            self.battery.setFill("green")
-        elif self.battery_level > 30:
-            self.battery.setFill("yellow")
-        elif self.battery_level > 0:
-            self.battery.setFill("red")
-        if self.battery_level <= 0:
-            self.battery.setFill("black")
-
     def consumir_bateria(self, distancia):
-        quantidade = 0.075 # Quantidade de bateria consumida por unidade de distância, assim dá para percorrer a sala inteira 2x
-        self.battery_level -= quantidade*distancia  # Consome bateria proporcional à distância percorrida
+        quantidade = 0.1  # Quantidade de bateria consumida por unidade de distância
+        self.battery_level -= quantidade * distancia  # Consome bateria proporcional à distância percorrida
         if self.battery_level < 0:
             self.battery_level = 0
         self.cor_bateria()
-        print(f"Bateria atual: {self.battery_level}%")
+        self.atualizar_mostrador()
+        print(f"Bateria atual: {self.battery_level:.0f}%")
     
     def carregar_bateria(self, x, y):
         if 95 <= x <= 99 and 143 <= y <= 147:  # Verifica se o robô está na estação de carregamento
@@ -68,9 +59,41 @@ class Waiter:
                     self.battery_level += 10
                     if self.battery_level > 100:
                         self.battery_level = 100
+                    self.atualizar_mostrador()
                     self.cor_bateria()
                     time.sleep(0.2)  # tempo entre cargas
-                    print(f"Bateria atual: {self.battery_level}%")
+                    print(f"Bateria atual: {self.battery_level:.0f}%")
+    
+
+    def mostrador(self, battery_level):
+        # Desenha o retângulo do mostrador
+        self.rect = Rectangle(Point(3, 142), Point(40, 149))
+        self.rect.setOutline("black")
+        self.rect.setFill("green")
+        self.rect.draw(self.window)
+
+        # Adiciona o texto e desenha
+        self.battery_text = Text(self.rect.getCenter(), f"Bateria: {battery_level:.0f}%")
+        self.battery_text.setSize(10)
+        self.battery_text.setTextColor("black")
+        self.battery_text.draw(self.window)
+
+    def atualizar_mostrador(self):
+        self.battery_text.setText(f"Bateria: {self.battery_level:.0f}%")
+
+    def cor_bateria(self):
+        if self.battery_level > 60:
+            self.battery.setFill("green")
+            self.rect.setFill("green")
+        elif self.battery_level > 30:
+            self.battery.setFill("yellow") 
+            self.rect.setFill("yellow")
+        elif self.battery_level > 0:
+            self.battery.setFill("red")
+            self.rect.setFill("red")
+        if self.battery_level <= 0:
+            self.battery.setFill("black")
+            self.rect.setFill("black")
 
 
     def mover_tier1(self, destino_x, destino_y):
@@ -311,12 +334,16 @@ class Waiter:
         x = click_point.getX()
         y = click_point.getY()
 
-        if 68 <= x <= 82 and 130 <= y <= 150:  # Coordenadas da zona proibida
+        if 68 <= x <= 102 and 130 <= y <= 150:  # Coordenadas da zona proibida
             print("Zona proibida! Obstáculo não será criado.")
             return
         
         if 135 <= x <= 150 and 0 <= y <= 15:  # Coordenadas da zona proibida
             print("Zona proibida! Obstáculo não será criado.")
+            return
+        
+        if 3 <= x <= 40 and 142 <= y <= 149:  # Coordenadas do mostrador de bateria
+            print("Clique no mostrador de bateria. Obstáculo não será criado.")
             return
         
         for (x1, y1, x2, y2) in self.posicoes_mesa:
@@ -353,8 +380,7 @@ class Button: # Cria um botão
         button.draw(win)
         label = Text(button.getCenter(), label_text)
         label.draw(win)
-        return button, label  # Retorna o objeto label ao invés do texto
-    
+        return button, label  # Retorna o objeto label ao invés do texto   
 class Table:
     def __init__(self, win, x1, y1, x2, y2, color, ident):
         self.rect = Rectangle(Point(x1, y1), Point(x2, y2))
@@ -383,7 +409,7 @@ class Divisao:
         self.rect.draw(win)
 
 
-class Bancada:
+class Cozinha:
     def __init__(self, win, x1, y1, x2, y2, color):
         self.rect = Rectangle(Point(x1, y1), Point(x2, y2))
         self.rect.setFill(color)
@@ -409,7 +435,6 @@ class Saida:
         # Cria imagem sobre o botão
         centro = self.rect.getCenter()
         Image(centro, "sair2.png").draw(self.win)
-        
 
 class Sala:
     def __init__(self):
@@ -456,13 +481,13 @@ class Sala:
                     Div = Divisao(self.win2, x1, y1, x2, y2, cor)
                     self.posicoes_Div.append((x1, x2, y1, y2))
                 
-                elif tipo == "B":
+                elif tipo == "C":
                     x1 = float(partes[1])
                     y1 = float(partes[2])
                     x2 = float(partes[3])
                     y2 = float(partes[4])
                     cor = partes[5]
-                    Bancada(self.win2, x1, y1, x2, y2, cor)
+                    Cozinha(self.win2, x1, y1, x2, y2, cor)
 
                 elif tipo == "E":
                     x1 = float(partes[1])
