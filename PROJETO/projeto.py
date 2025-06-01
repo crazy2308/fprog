@@ -47,3 +47,26 @@ def tier2():
             robo.obstaculo(click)
         else:
             print("Robô movido para a mesa.")
+
+def tier3():
+    sala = Sala()
+    sala.run("sala49.txt")
+
+    robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.x1, sala.y1, sala.x2, sala.y2, sala.posicoes_mesa, sala.posicoes_Div)
+    robo.mostrador(robo.battery_level)
+    while True:
+        click = sala.win2.getMouse()
+
+        # Verifica se clicou no botão SAIR
+        if sala.saida and Button.is_click_in_button(click, sala.saida.button):
+            sala.win2.close()
+            game = menu_principal()
+            game.run()
+            break
+
+        clicou_em_mesa = robo.go_to_table_tier3(click, sala.mesas)
+        
+        if not clicou_em_mesa:
+            robo.obstaculo(click)
+        else:
+            print("Robô movido para a mesa.")

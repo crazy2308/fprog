@@ -149,6 +149,42 @@ class Waiter:
             self.consumir_bateria(sqrt(dx**2 + dy**2))
             time.sleep(0.005)
 
+    def mover_tier3(self, destino_x, destino_y):       
+
+        passos = 100
+        dx = (destino_x - self.posicao_x) / passos
+        dy = (destino_y - self.posicao_y) / passos
+
+        for i in range(passos):
+
+            novo_x = self.posicao_x + dx
+            novo_y = self.posicao_y + dy
+
+        # Verifica se houve clique durante o movimento
+            click = self.window.checkMouse()
+            if click:
+                print("Clique durante o movimento!")
+                self.obstaculo(click)  # Adiciona obstáculo
+
+            colisao, posicao = self.colisao(novo_x, novo_y)
+
+            if colisao == "bateu":
+                print(f"Colisão detectada com obstáculo na posição {posicao}!")
+                time.sleep(2.0)
+                self.obstaculos.pop(posicao)
+                self.obstaculos_imagens[posicao].undraw()
+                self.obstaculos_imagens.pop(posicao)  # ← REMOVE a imagem da lista também!
+
+
+            for parte in self.body_parts:
+                parte.move(dx, dy)
+
+            self.posicao_x = novo_x
+            self.posicao_y = novo_y
+
+            self.consumir_bateria(sqrt(dx**2 + dy**2))
+            time.sleep(0.005)
+
     def table_check(self, click_point, mesas):
 
         for mesa in mesas:
@@ -225,7 +261,6 @@ class Waiter:
         ponto1 = Point(97.0, 135.0)  # Ponto inicial do robô
         ponto2 = Point(75.0, 136.0)  # Ponto de destino do robô
         ponto3 = Point(97.0, 145.0)  # Ponto de destino do robô
-        self.running = True  # Garante que o robô está ativo
         
         for mesa in mesas:
             if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
@@ -327,6 +362,109 @@ class Waiter:
                 print("Colisão detectada com um obstáculo!")
                 return "bateu", i  
         return 0, 0
+        
+
+    def obstaculo(self, click_point):
+
+        x = click_point.getX()
+        y = click_point.getY()
+
+        if 68 <= x <= 102 and 130 <= y <= 150:  # Coordenadas da zona proibida
+            print("Zona proibida! Obstáculo não será criado.")
+            return
+        
+        if 135 <= x <= 150 and 0 <= y <= 15:  # Coordenadas da zona proibida
+            print("Zona proibida! Obstáculo não será criado.")
+            return
+        
+        if 3 <= x <= 40 and 142 <= y <= 149:  # Coordenadas do mostrador de bateria
+            print("Clique no mostrador de bateria. Obstáculo não será criado.")
+            return
+        
+        for (x1, y1, x2, y2) in self.posicoes_mesa:
+            if x1 <= x <= x2 and y1 <= y <= y2:
+                print("Clique em mesa. Obstáculo não será criado.")       
+                return
+        for (x1, x2, y1, y2) in self.posicoes_Div:
+            if x1 <= x <= x2 and y1 <= y <= y2:
+                print("Clique em divisão. Obstáculo não será criado.")       
+                return
+                 
+        print("Clique detectado fora das mesas!")
+        cerveja = Image(Point(x, y), "jola.png")
+        cerveja.draw(self.window)
+
+        x1 = x - 10
+        x2 = x + 10
+        y1 = y - 8
+        y2 = y + 8
+         # Evita colocar obstáculo sobre o botão SAIR
+        self.obstaculos.append((x1,x2,y1,y2))  # Adiciona a cerveja à lista de obstáculos
+        self.obstaculos_imagens.append(cerveja)  # Adiciona a imagem da cerveja à lista de imagens
+
+    def go_to_table_tier3(self, click_point, mesas):
+        ponto1 = Point(97.0, 135.0)  # Docking station
+        ponto2 = Point(75.0, 136.0)  # Ponto de destino intermédio
+        ponto3 = Point(97.0, 145.0)  # Ponto de finalização
+
+        for mesa in mesas:
+            if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
+                mesa.rect.setFill("green")  # Muda a cor da mesa para verde
+                print("Clique detectado em uma mesa!")
+                # Obtém o centro da mesa
+                center = mesa.rect.getCenter()
+                img = Image(center, 'bifana.png')
+
+        # Move do docking para o ponto intermédio
+        self.mover_tier3(ponto1.getX(), ponto1.getY())
+        self.mover_tier3(ponto2.getX(), ponto2.getY())
+
+        # Percorre a lista de entregasFill("green")
+
+            # Antes de entregar, verificar bateria mínima
+        if self.battery_level < 10:
+                print("Bateria baixa! Interrompendo entregas.")
+                return
+
+        if mesa.ident == "EE":
+                self.mover_tier3(center.getX() - 15, 135.0)
+                self.mover_tier3(center.getX() - 15, center.getY())
+                self.mover_tier3(center.getX() - 13, center.getY())
+        elif mesa.ident == "EC":
+                self.mover_tier3(center.getX() + 15, 135.0)
+                self.mover_tier3(center.getX() + 15, center.getY())
+                self.mover_tier3(center.getX() + 13, center.getY())
+        elif mesa.ident == "DC":
+                self.mover_tier3(center.getX() - 15, 135.0)
+                self.mover_tier3(center.getX() - 15, center.getY())
+                self.mover_tier3(center.getX() - 13, center.getY())
+        elif mesa.ident == "DD":
+                self.mover_tier3(center.getX() + 15, 135.0)
+                self.mover_tier3(center.getX() + 15, center.getY())
+                self.mover_tier3(center.getX() + 13, center.getY())
+        else:
+                self.mover_tier3(center.getX(), center.getY())
+
+            # Entrega: espera e retira imagem
+        sleep(2.0)
+
+        
+            # Voltar para o "corredor"
+        if mesa.ident in ["EE", "DC"]:
+                self.mover_tier3(center.getX() - 15, center.getY())
+        elif mesa.ident in ["EC", "DD"]:
+                self.mover_tier3(center.getX() + 15, center.getY())
+        self.mover_tier3(self.posicao_x, 135.0)
+
+            # Restaurar cor da mesa
+        mesa.rect.setFill(mesa.cor_original)
+
+        # Volta ao ponto final e recarrega bateria
+        self.mover_tier3(ponto1.getX(), ponto1.getY())
+        self.mover_tier3(ponto3.getX(), ponto3.getY())
+        self.carregar_bateria(self.posicao_x, self.posicao_y)
+        return True
+
         
 
     def obstaculo(self, click_point):
