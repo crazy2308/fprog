@@ -39,11 +39,40 @@ class Waiter:
         # Indicador de bateria
         battery_radius = self.body_radius / 4
         self.battery = Circle(self.center, battery_radius)
-        self.battery.setFill(color_rgb(0, 255, 0))
+        self.battery.setFill("green")
         self.battery.draw(self.window)
         self.body_parts.append(self.battery)
 
-        
+    def cor_bateria(self):
+        if self.battery_level > 60:
+            self.battery.setFill("green")
+        elif self.battery_level > 30:
+            self.battery.setFill("yellow")
+        elif self.battery_level > 0:
+            self.battery.setFill("red")
+        if self.battery_level <= 0:
+            self.battery.setFill("black")
+
+    def consumir_bateria(self, distancia):
+        quantidade = 0.075 # Quantidade de bateria consumida por unidade de distância, assim dá para percorrer a sala inteira 2x
+        self.battery_level -= quantidade*distancia  # Consome bateria proporcional à distância percorrida
+        if self.battery_level < 0:
+            self.battery_level = 0
+        self.cor_bateria()
+        print(f"Bateria atual: {self.battery_level}%")
+    
+    def carregar_bateria(self, x, y):
+        if 95 <= x <= 99 and 143 <= y <= 147:  # Verifica se o robô está na estação de carregamento
+            for i in range(10):  # 10 vezes, 10 unidades por vez
+                if self.battery_level < 100:
+                    self.battery_level += 10
+                    if self.battery_level > 100:
+                        self.battery_level = 100
+                    self.cor_bateria()
+                    time.sleep(0.2)  # tempo entre cargas
+                    print(f"Bateria atual: {self.battery_level}%")
+
+
     def mover_tier1(self, destino_x, destino_y):
        
         passos = 100
@@ -93,6 +122,8 @@ class Waiter:
 
             self.posicao_x = novo_x
             self.posicao_y = novo_y
+
+            self.consumir_bateria(sqrt(dx**2 + dy**2))
             time.sleep(0.005)
 
     def table_check(self, click_point, mesas):
@@ -100,7 +131,6 @@ class Waiter:
         for mesa in mesas:
             if mesa.det_table(click_point):  # Verifica se o clique está dentro da mesa
                 print("Clique detectado em uma mesa!")
-                self.check_table() # Chama a função para verificar a mesa
                 return True  # Indica que o clique foi em uma mesa
         return False  # Indica que o clique não foi em uma mesa
     
@@ -259,6 +289,8 @@ class Waiter:
                     self.mover_tier2(ponto3.getX(), ponto3.getY())
 
                 mesa.rect.setFill(mesa.cor_original)
+                self.carregar_bateria(self.posicao_x, self.posicao_y)
+                  # Tenta carregar a bateria após cada movimento
             
                 return True  # Indica que o clique foi em uma mesa
                     
