@@ -53,6 +53,7 @@ def tier3(): #Executa o terceiro tier do robo
 
     robo = Waiter(sala.win2, Point(97, 145), 4, 100, sala.posicoes_mesa, sala.posicoes_Div)
     robo.mostrador(robo.battery_level)
+    robo.go_to_table_tier3(sala.mesas)
     while True:
         click = sala.win2.getMouse()
 
