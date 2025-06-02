@@ -36,7 +36,7 @@ class Waiter: # Classe que define o robo, a bateria, e os movimentos do robo
         self.body_parts.append(self.battery)
 
     def consumir_bateria(self, distancia): #define a função que consome bateria e dá um debug
-        quantidade = 0.1  # Quantidade de bateria consumida por unidade de distância
+        quantidade = 0.075  # Quantidade de bateria consumida por unidade de distância, este valor permite que se percorra duas vezes a área da sala
         self.battery_level -= quantidade * distancia  # Consome bateria proporcional à distância percorrida
         if self.battery_level < 0:
             self.battery_level = 0
@@ -394,14 +394,14 @@ class Waiter: # Classe que define o robo, a bateria, e os movimentos do robo
         
         #Tier 3: O utilizador clica em 3 mesas. O robô calcula a ordem ótima e faz as entregas.
         
-
-        ponto_dock = Point(97.0, 135.0)
+        #Define as posições do robô
+        ponto_dock = Point(97.0, 135.0) 
         ponto_intermedio = Point(75.0, 136.0)
         ponto_final = Point(97.0, 145.0)
 
         mesas_selecionadas = []
 
-        # Esperar 3 cliques válidos em mesas
+        # Espera 3 cliques válidos em mesas
         while len(mesas_selecionadas) < 3:
             click = self.window.getMouse()
             for mesa in mesas:
@@ -410,7 +410,7 @@ class Waiter: # Classe que define o robo, a bateria, e os movimentos do robo
                     mesas_selecionadas.append(mesa)
                     print(f"Mesa {mesa.ident} selecionada.")
 
-        # Gerar todas as 6 permutações manualmente
+        # Gerar todas as 6 permutações manualmente, ou seja todas as maneiras de organizar as mesas 3*3=6 permutações
         a, b, c = mesas_selecionadas
         ordens = [
             [a, b, c],
@@ -425,16 +425,17 @@ class Waiter: # Classe que define o robo, a bateria, e os movimentos do robo
         melhor_ordem = None
         menor_distancia = float("inf")
 
+        #Calcula para todas as permutações qual a mesa mais perto, podendo iniciar o trajeto percorrendo a menor distância
         for ordem in ordens:
             atual = ponto_inicial
             total = 0
             for mesa in ordem:
-                centro = mesa.rect.getCenter()
-                dx = centro.getX() - atual.getX()
-                dy = centro.getY() - atual.getY()
-                total += sqrt(dx**2 + dy**2)
+                centro = mesa.rect.getCenter() 
+                dx = centro.getX() - atual.getX() #Faz a distancia no eixo do x
+                dy = centro.getY() - atual.getY() #Faz a distancia no eixo do y
+                total += sqrt(dx**2 + dy**2)  #Calcula recorrendo a math, a distância em linha reta à mesa
                 atual = centro
-            if total < menor_distancia:
+            if total < menor_distancia: #A menor distância em linha reta à mesa será resultado da melhor combinação então essa é a que precisamos guardar
                 menor_distancia = total
                 melhor_ordem = ordem
 
