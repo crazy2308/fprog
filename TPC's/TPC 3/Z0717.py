@@ -1,4 +1,4 @@
-from graphics import *
+from graphics import GraphWin, Point, Circle
 import time
 
 def window(): #Definir o tamanha da janela por input do utilizador
@@ -23,7 +23,7 @@ def defenircoordenadas():
 
 def defenircirculo(win, x, y, raio):
     circulo = Circle(Point(x, y), raio)
-    circulo.setFill ("Red")
+    circulo.setFill ("Green")
     circulo.draw(win)
 
     return circulo
