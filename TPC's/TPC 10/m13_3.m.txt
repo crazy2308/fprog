@@ -1,0 +1,60 @@
+%% 1. Seno com passo 0.1 e 0.01
+x1 = 0:0.1:100;
+x2 = 0:0.01:100;
+
+y1 = sin(x1);
+y2 = sin(x2);
+
+figure;
+plot(x1, y1, 'b-', 'DisplayName', 'Passo 0.1');
+hold on;
+plot(x2, y2, 'r--', 'DisplayName', 'Passo 0.01');
+title('Função Seno com Diferentes Passos');
+xlabel('x');
+ylabel('sin(x)');
+legend;
+grid on;
+%% 2. Funções exponencial e logarítmica
+x = 0.1:0.1:10;
+y_exp = exp(x);
+y_log = log(x);
+
+figure;
+plot(x, y_exp, 'g-', 'DisplayName', 'exp(x)');
+hold on;
+plot(x, y_log, 'm--', 'DisplayName', 'log(x)');
+title('Funções Exponencial e Logarítmica');
+xlabel('x');
+ylabel('y');
+legend;
+grid on;
+%% 3. Seno e Cosseno no mesmo gráfico
+x = 0:0.1:10;
+y_sin = sin(x);
+y_cos = cos(x);
+
+figure;
+plot(x, y_sin, 'b-', 'DisplayName', 'sin(x)');
+hold on;
+plot(x, y_cos, 'r--', 'DisplayName', 'cos(x)');
+title('Funções Seno e Cosseno');
+xlabel('x');
+ylabel('Amplitude');
+legend;
+grid on;
+%% 4. Seno e Cosseno em subgráficos
+figure;
+
+subplot(2,1,1);
+plot(x, y_sin, 'b');
+title('Seno');
+xlabel('x');
+ylabel('sin(x)');
+grid on;
+
+subplot(2,1,2);
+plot(x, y_cos, 'r');
+title('Cosseno');
+xlabel('x');
+ylabel('cos(x)');
+grid on;

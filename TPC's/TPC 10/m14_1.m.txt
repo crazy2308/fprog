@@ -1,0 +1,30 @@
+% Script para avaliar y(x) = x^2 - 3x + 2 de x = -1 a 3 com passo 0.01
+
+% Geração do vetor de x
+x = -1:0.01:3;
+
+% --- Usando ciclo for ---
+y_for = zeros(size(x)); % Prealocação para desempenho
+tic; % Início do cronómetro
+for i = 1:length(x)
+    y_for(i) = x(i)^2 - 3*x(i) + 2;
+end
+tempo_for = toc; % Tempo decorrido
+
+% --- Usando vetorização ---
+tic; % Início do cronómetro
+y_vec = x.^2 - 3*x + 2;
+tempo_vec = toc; % Tempo decorrido
+
+% Exibição dos tempos
+fprintf('Tempo com for: %.6f segundos\n', tempo_for);
+fprintf('Tempo com vetorização: %.6f segundos\n', tempo_vec);
+
+% --- Gráfico ---
+figure;
+plot(x, y_vec, 'b-', 'LineWidth', 2);
+grid on;
+xlabel('x');
+ylabel('y(x)');
+title('Gráfico de y(x) = x^2 - 3x + 2');
+legend('y(x)', 'Location', 'NorthEast');
